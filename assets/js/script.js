@@ -33,7 +33,6 @@ var getCityLoc = function (city) {
             console.log(lat)
             console.log(lon)
             getCity(lat, lon);
-            //displayRepos(data, city);
           });
         } else {
           alert('Error: ' + response.statusText);
@@ -44,8 +43,23 @@ var getCityLoc = function (city) {
       });
   };
 
- // var getCity = function (lon, lat) {
- //   var apiUrl = 
- // }
-
+var getCity = function (lat, lon) {
+   var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast?lat='+ lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1'
+   
+   fetch(apiUrl)
+   .then(function (response) {
+     if (response.ok) {
+       console.log(response);
+       response.json().then(function (data) {
+         console.log(data);
+         //displayRepos(data, city);
+       });
+     } else {
+       alert('Error: ' + response.statusText);
+     }
+   })
+   .catch(function (error) {
+     alert('Unable to connect to open weather');
+   });
+}
   userFormEl.addEventListener('submit', formSubmitHandler);
