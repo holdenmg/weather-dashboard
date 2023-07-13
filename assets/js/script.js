@@ -5,13 +5,13 @@ var userFormEl = document.querySelector('#user-form');
 var formSubmitHandler = function (event) {
     event.preventDefault();
   
-    var city = nameInputEl.value.trim();
+    var city = cityInputEl.value.trim();
   
     if (city) {
-      getUserRepos(city);
+      getCityLoc(city);
   
-      repoContainerEl.textContent = '';
-      nameInputEl.value = '';
+      
+      cityInputEl.value = '';
     } else {
       alert('Please enter a city');
     }
@@ -19,7 +19,7 @@ var formSubmitHandler = function (event) {
 
 
 
-var getUserRepos = function (city) {
+var getCityLoc = function (city) {
     var apiUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city +'&limit=5&appid=c0071185ee231827a2eb0bc81f09dac1'
   
     fetch(apiUrl)
@@ -28,7 +28,12 @@ var getUserRepos = function (city) {
           console.log(response);
           response.json().then(function (data) {
             console.log(data);
-            displayRepos(data, user);
+            var lon = data[0].lon;
+            var lat = data[0].lat
+            console.log(lat)
+            console.log(lon)
+            getCity(lat, lon);
+            //displayRepos(data, city);
           });
         } else {
           alert('Error: ' + response.statusText);
@@ -38,3 +43,9 @@ var getUserRepos = function (city) {
         alert('Unable to connect to open weather');
       });
   };
+
+ // var getCity = function (lon, lat) {
+ //   var apiUrl = 
+ // }
+
+  userFormEl.addEventListener('submit', formSubmitHandler);
