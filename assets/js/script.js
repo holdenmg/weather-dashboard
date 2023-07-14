@@ -3,7 +3,7 @@ var userFormEl = document.querySelector('#user-form');
 var forecastEl = document.querySelector('#forecast');
 var currentEl = document.querySelector("#current-weather");
 var savedCities = document.querySelector("#saved-cities");
-cities = JSON.parse(localStorage.getItem('cities'));
+cities = JSON.parse(localStorage.getItem('cities')) || [];
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
@@ -40,7 +40,7 @@ var getCityLoc = function (city) {
         currentEl.appendChild(cityNameEl)
         //save city to local storage for recalling later
         var key = "cities"
-        if(!cities.includes(city)){
+        if(!cities.includes(city) || (cities = null)){
         cities.push(city);
         arrayCities = JSON.stringify(cities);
         localStorage.setItem(key, arrayCities);
