@@ -9,13 +9,15 @@ cities = [];
 var formSubmitHandler = function (event) {
     event.preventDefault();
   
+
+    
+       
+
     var city = cityInputEl.value.trim();
     
 
     //save city to local storage for recalling later
-    var key = "cities"
-    cities.push(city);
-    localStorage.setItem(key, cities);
+    
 
     //remove previous results, if any
     first = forecastEl.firstElementChild;
@@ -38,13 +40,11 @@ var formSubmitHandler = function (event) {
         //save city to local storage for recalling later
         var key = "cities"
         cities.push(city);
-        localStorage.setItem(key, cities);
+        arrayCities = JSON.stringify(cities);
+        localStorage.setItem(key, arrayCities);
         getCityLoc(city); 
         cityInputEl.value = '';
-        newButton = document.createElement('button');
-        newButton.textContent = city;
-        newButton.setAttribute("id", city);
-        savedCities.appendChild(newButton);
+        
 
 
     } else {
@@ -53,12 +53,9 @@ var formSubmitHandler = function (event) {
     
   };
 
-  function buttonMaker(){
-    for (var i = 0; i < localStorage.length; i++){
-        pCity = (localStorage.getItem(localStorage.key(i)));
-
-    }
-  }
+  
+    
+  
 
 var getCityLoc = function (city) {
 
@@ -195,11 +192,27 @@ var getCurrent = function (lat, lon) {
     dayDiv.appendChild(aWind);
     dayDiv.appendChild(aHumid);
     currentEl.appendChild(dayDiv);
+    //call init to refresh buttons
+    init()
 
 
 
 
    }
 
+   //initializes buttons from previous searches
+function init(){
+   var pCityArray = localStorage.getItem('cities');
+   const pCities = JSON.parse(pCityArray);
+   for(i=0; i < pCities.length; i++){
+   newButton = document.createElement('button');
+   var pCity = pCities[i]
+   newButton.textContent = pCity;
+   newButton.setAttribute("id", pCity);
+   savedCities.appendChild(newButton);
+   }
+}
 
-  userFormEl.addEventListener('submit', formSubmitHandler);
+
+init()
+userFormEl.addEventListener('submit', formSubmitHandler);
