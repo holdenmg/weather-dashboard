@@ -21,6 +21,7 @@ N/A
 User can type a city name in the search field. Current weather and 5 day forecast will be displayed on page. Previous searches are saved to local storage and a button with the cities name is created. The search is repeatable by pressing button of previous search.
 ## Credits
 
+Weather data collected from OpenWeather API
 
 
 ## License

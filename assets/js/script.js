@@ -2,6 +2,7 @@ var cityInputEl = document.querySelector('#city');
 var userFormEl = document.querySelector('#user-form');
 var forecastEl = document.querySelector('#forecast');
 var currentEl =document.querySelector("#current-weather");
+var savedCities = document.querySelector("#saved-cities");
 
 cities = [];
 
@@ -40,11 +41,24 @@ var formSubmitHandler = function (event) {
         localStorage.setItem(key, cities);
         getCityLoc(city); 
         cityInputEl.value = '';
+        newButton = document.createElement('button');
+        newButton.textContent = city;
+        newButton.setAttribute("id", city);
+        savedCities.appendChild(newButton);
+
+
     } else {
         alert('Please enter a city');
     }
     
   };
+
+  function buttonMaker(){
+    for (var i = 0; i < localStorage.length; i++){
+        pCity = (localStorage.getItem(localStorage.key(i)));
+
+    }
+  }
 
 var getCityLoc = function (city) {
 
@@ -77,7 +91,7 @@ var getCityLoc = function (city) {
 var getCity = function (lat, lon) {
 
     //5 day forecast api
-   var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast?lat='+ lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1'
+   var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast?lat='+ lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1&units=imperial'
    
    fetch(apiUrl)
    .then(function (response) {
@@ -101,7 +115,7 @@ var getCity = function (lat, lon) {
 var getCurrent = function (lat, lon) {
 
     //current weather api
-    var apiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat='+ lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1'
+    var apiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat='+ lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1&units=imperial'
 
     fetch(apiUrl)
    .then(function (response) {
@@ -141,9 +155,9 @@ var getCurrent = function (lat, lon) {
             var aTemp = document.createElement('a');
             var aWind = document.createElement('a');
             var aHumid = document.createElement('a');
-            aDate.textContent = date;
+            aDate.textContent = dayjs(date).format('MM/DD/YYYY');
             aIcon.innerHTML = "<src = http://openweathermap.org/img/w/"+ icon +".png>";
-            aTemp.textContent = "Temp: " + temp;
+            aTemp.textContent = "Temp: " + temp + " F";
             aWind.textContent = "Wind: " + wind +" MPH";
             aHumid.textContent = "Humidity: " + humid + "%";
             dayDiv.appendChild(aDate);
@@ -172,7 +186,7 @@ var getCurrent = function (lat, lon) {
     var aHumid = document.createElement('a');
     aDate.textContent = date;
     aIcon.innerHTML = "<src = http://openweathermap.org/img/w/"+ icon +".png>";
-    aTemp.textContent = "Temp: " + temp;
+    aTemp.textContent = "Temp: " + temp + " F";
     aWind.textContent = "Wind: " + wind +" MPH";
     aHumid.textContent = "Humidity: " + humid + "%";
     dayDiv.appendChild(aDate);
