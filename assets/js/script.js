@@ -3,25 +3,52 @@ var userFormEl = document.querySelector('#user-form');
 var forecastEl = document.querySelector('#forecast');
 var currentEl =document.querySelector("#current-weather");
 
+cities = [];
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
   
     var city = cityInputEl.value.trim();
-  
-    if (city) {
-      getCityLoc(city);
-  
-      
-      cityInputEl.value = '';
-    } else {
-      alert('Please enter a city');
+    
+
+    //save city to local storage for recalling later
+    var key = "cities"
+    cities.push(city);
+    localStorage.setItem(key, cities);
+
+    //remove previous results, if any
+    first = forecastEl.firstElementChild;
+    while (first) {
+        first.remove();
+        first = forecastEl.firstElementChild;
     }
+    first = currentEl.firstElementChild;
+    while (first) {
+        first.remove();
+        first = currentEl.firstElementChild;
+    }
+
+    //check if input is valid
+    if (city) {
+        //create element for city title
+        cityNameEl = document.createElement('h3');
+        cityNameEl.textContent = city;
+        currentEl.appendChild(cityNameEl)
+        //save city to local storage for recalling later
+        var key = "cities"
+        cities.push(city);
+        localStorage.setItem(key, cities);
+        getCityLoc(city); 
+        cityInputEl.value = '';
+    } else {
+        alert('Please enter a city');
+    }
+    
   };
 
-
-
 var getCityLoc = function (city) {
+
+    //geo api to get lat and lon of desired city
     var apiUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city +'&limit=5&appid=c0071185ee231827a2eb0bc81f09dac1'
   
     fetch(apiUrl)
@@ -44,10 +71,12 @@ var getCityLoc = function (city) {
       .catch(function (error) {
         alert('Unable to connect to open weather');
       });
-      //return city;
+     
   };
 
 var getCity = function (lat, lon) {
+
+    //5 day forecast api
    var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast?lat='+ lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1'
    
    fetch(apiUrl)
@@ -67,7 +96,11 @@ var getCity = function (lat, lon) {
      alert('Unable to connect to open weather');
    });
 }
-   var getCurrent = function (lat, lon) {
+
+
+var getCurrent = function (lat, lon) {
+
+    //current weather api
     var apiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat='+ lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1'
 
     fetch(apiUrl)
@@ -88,6 +121,7 @@ var getCity = function (lat, lon) {
    });
    }
    
+   //Create elements containing forecast data and display on page
    function displayForecast(data){
         var i = 4;
         while( i < data.list.length){
@@ -122,9 +156,10 @@ var getCity = function (lat, lon) {
         }
    }
 
+   //Create element containing current data and display on page
    function displayCurrent(data){
 
-    var date = dayjs();
+    var date = dayjs().format('MM/DD/YYYY');
     var icon = data.weather[0].icon
     var temp = data.main.temp;
     var wind = data.wind.speed;
@@ -135,7 +170,7 @@ var getCity = function (lat, lon) {
     var aTemp = document.createElement('a');
     var aWind = document.createElement('a');
     var aHumid = document.createElement('a');
-    aDate.textContent = city + date;
+    aDate.textContent = date;
     aIcon.innerHTML = "<src = http://openweathermap.org/img/w/"+ icon +".png>";
     aTemp.textContent = "Temp: " + temp;
     aWind.textContent = "Wind: " + wind +" MPH";
