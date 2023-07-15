@@ -8,20 +8,14 @@ cities = JSON.parse(localStorage.getItem('cities')) || [];
 var formSubmitHandler = function (event) {
     event.preventDefault();
     var city = cityInputEl.value.trim();
-    //remove previous results, if any
-   
     //check if input is valid
     if (city) {
-        //create element for city title
-        
         getCityLoc(city);
         cityInputEl.value = '';
     } else {
         alert('Please enter a city');
     }
-
 };
-
 var getCityLoc = function (city) {
 
     first = forecastEl.firstElementChild;
@@ -35,22 +29,19 @@ var getCityLoc = function (city) {
         first = currentEl.firstElementChild;
     }
     cityNameEl = document.createElement('h3');
-        
-        cityNameEl.textContent = city;
-        currentEl.appendChild(cityNameEl)
-        //save city to local storage for recalling later
-        var key = "cities"
-        if(!cities.includes(city) || (cities = null)){
+    cityNameEl.textContent = city;
+    currentEl.appendChild(cityNameEl)
+    //save city to local storage for recalling later
+    var key = "cities"
+    if (!cities.includes(city)) {
         cities.push(city);
         arrayCities = JSON.stringify(cities);
         localStorage.setItem(key, arrayCities);
-        }
-        //create new previous city button for entered city
-        init()
-
+    }
+    //create new previous city button for entered city
+    init()
     //geo api to get lat and lon of desired city
     var apiUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=5&appid=c0071185ee231827a2eb0bc81f09dac1'
-
     fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -71,11 +62,9 @@ var getCityLoc = function (city) {
         .catch(function (error) {
             alert('Unable to connect to open weather');
         });
-
 };
-
 var getCity = function (lat, lon) {
-    //5 day forecast api
+    //5 day forecast api call
     var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1&units=imperial'
     fetch(apiUrl)
         .then(function (response) {
@@ -85,7 +74,8 @@ var getCity = function (lat, lon) {
                     console.log(data);
                     displayForecast(data);
                 });
-            } else {
+            }
+            else {
                 alert('Error: ' + response.statusText);
             }
         })
@@ -93,7 +83,6 @@ var getCity = function (lat, lon) {
             alert('Unable to connect to open weather');
         });
 }
-
 var getCurrent = function (lat, lon) {
     //current weather api
     var apiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1&units=imperial'
@@ -113,8 +102,7 @@ var getCurrent = function (lat, lon) {
             alert('Unable to connect to open weather');
         });
 }
-
-//Create elements containing forecast data and display on page
+//Create elements containing 5 day forecast data and display on page
 function displayForecast(data) {
     var title = document.createElement('h5');
     title.textContent = "Five Day Forecast: ";
@@ -131,19 +119,23 @@ function displayForecast(data) {
         console.log(temp);
         console.log(wind);
         console.log(humid);
-       
         var dayDiv = document.createElement('div');
-        var aDate = document.createElement('a')
+        dayDiv.setAttribute("class", "col p-3 mb-2 bg-dblue text-white");
+        var aDate = document.createElement('div')
+        aDate.setAttribute("class", "col");
         var aIcon = document.createElement('img');
-        var aTemp = document.createElement('a');
-        var aWind = document.createElement('a');
-        var aHumid = document.createElement('a');
+        aIcon.setAttribute("class", "col");
+        var aTemp = document.createElement('div');
+        aTemp.setAttribute("class", "col");
+        var aWind = document.createElement('div');
+        aWind.setAttribute("class", "col");
+        var aHumid = document.createElement('div');
+        aHumid.setAttribute("class", "col");
         aDate.textContent = dayjs(date).format('MM/DD/YYYY');
         aIcon.src = "https://openweathermap.org/img/wn/" + icon + ".png"
         aTemp.textContent = "Temp: " + temp + " F";
         aWind.textContent = "Wind: " + wind + " MPH";
         aHumid.textContent = "Humidity: " + humid + "%";
-       
         dayDiv.appendChild(aDate);
         dayDiv.appendChild(aIcon);
         dayDiv.appendChild(aTemp);
@@ -153,10 +145,8 @@ function displayForecast(data) {
         i = i + 8;
     }
 }
-
 //Create element containing current data and display on page
 function displayCurrent(data) {
-
     var date = dayjs().format('MM/DD/YYYY');
     var icon = data.weather[0].icon;
     var temp = data.main.temp;
@@ -179,10 +169,7 @@ function displayCurrent(data) {
     dayDiv.appendChild(aWind);
     dayDiv.appendChild(aHumid);
     currentEl.appendChild(dayDiv);
-    
 }
-
-
 
 //initializes buttons from previous searches
 function init() {
@@ -193,29 +180,27 @@ function init() {
     }
     var pCityArray = localStorage.getItem('cities');
     const pCities = JSON.parse(pCityArray);
-    if(pCities){
-    for (i = 0; i < pCities.length; i++) {
-        newButton = document.createElement('button');
-        var pCity = pCities[i]
-        newButton.textContent = pCity;
-        newButton.setAttribute("id", pCity);
-        newButton.setAttribute("class", "pButton")
-        savedCities.appendChild(newButton);
-        
+    if (pCities) {
+        for (i = 0; i < pCities.length; i++) {
+            newButton = document.createElement('button');
+            var pCity = pCities[i]
+            newButton.textContent = pCity;
+            newButton.setAttribute("id", pCity);
+            newButton.setAttribute("class", "pButton gp-3 btn btn-secondary")
+            savedCities.appendChild(newButton);
+        }
+        $(".pButton").on("click", function (event) {
+            var button = $(event.target).closest("button");
+            var id = button.attr("id")
+            getCityLoc(id);
+        });
     }
-    $( ".pButton" ).on( "click", function(event) {
-        var button = $(event.target).closest("button");
-        var id = button.attr("id")
-        getCityLoc(id);
-    });
 }
-}
-
-
+//start app
 init()
 userFormEl.addEventListener('submit', formSubmitHandler);
-$( ".pButton" ).on( "click", function(event) {
+$(".pButton").on("click", function (event) {
     var button = $(event.target).closest("button");
     var id = button.attr("id")
-    
+
 });

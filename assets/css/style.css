@@ -1,0 +1,28 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.bg-blue {
+    background-color: rgb(62, 62, 132) !important;
+}
+
+.text-white {
+    color : white;
+}
+
+.app-title {
+    text-align: end;
+    padding-inline-end: 20%;
+}
+
+.bg-dblue {
+    background-color: rgb(47, 47, 63);
+}
+
+.bg-lblue {
+    background-color : blue
+}
+
+.card-header {
+    font-weight: bolder;
+}
