@@ -41,7 +41,7 @@ var getCityLoc = function (city) {
     //create new previous city button for entered city
     init()
     //geo api to get lat and lon of desired city
-    var apiUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=5&appid=c0071185ee231827a2eb0bc81f09dac1'
+    var apiUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=5&appid=c0071185ee231827a2eb0bc81f09dac1'
     fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -85,7 +85,7 @@ var getCity = function (lat, lon) {
 }
 var getCurrent = function (lat, lon) {
     //current weather api
-    var apiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1&units=imperial'
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1&units=imperial'
     fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
