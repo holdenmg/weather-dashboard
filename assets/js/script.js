@@ -65,7 +65,7 @@ var getCityLoc = function (city) {
 };
 var getCity = function (lat, lon) {
     //5 day forecast api call
-    var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1&units=imperial'
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=c0071185ee231827a2eb0bc81f09dac1&units=imperial'
     fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
