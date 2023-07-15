@@ -10,7 +10,7 @@ https://holdenmg.github.io/weather-dashboard/
 
 ## Screenshot
 <img src=assets/images/screenshot1.png> 
-<img src=assets/images/screenshot2.png> 
+
 
 ## Installation
 
