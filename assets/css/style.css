@@ -11,6 +11,7 @@
 }
 
 .app-title {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-align: end;
     padding-inline-end: 20%;
 }

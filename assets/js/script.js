@@ -160,8 +160,8 @@ function displayCurrent(data) {
     var aHumid = document.createElement('a');
     aDate.textContent = date;
     aIcon.src = "https://openweathermap.org/img/wn/" + icon + ".png"
-    aTemp.textContent = "Temp: " + temp + " F";
-    aWind.textContent = "Wind: " + wind + " MPH";
+    aTemp.textContent = "Temp: " + temp + "F   ";
+    aWind.textContent = "Wind: " + wind + "MPH   ";
     aHumid.textContent = "Humidity: " + humid + "%";
     dayDiv.appendChild(aDate);
     dayDiv.appendChild(aIcon);
